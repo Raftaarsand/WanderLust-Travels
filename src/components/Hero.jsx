@@ -39,7 +39,7 @@ export default function Hero() {
             Discover extraordinary places, unforgettable experiences, and journeys made just for you.
           </p>
           <div className="hero__actions">
-            <a href={`#${SECTION_IDS.destinations}`} className="btn btn--primary">
+            <a href={`#${SECTION_IDS.featured}`} className="btn btn--primary">
               Explore Destinations
               <ArrowRight size={18} aria-hidden="true" />
             </a>

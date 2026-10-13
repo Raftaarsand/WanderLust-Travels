@@ -2,8 +2,9 @@ import { useEffect, useRef } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { ArrowRight, Menu, X } from 'lucide-react';
 import { Dialog } from 'radix-ui';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import { BOOKING_CTA, CONTACT_DETAILS, NAV_LINKS, SECTION_IDS } from '@/data/site';
+import { BOOKING_CTA, BOOKING_HREF, CONTACT_DETAILS, NAV_LINKS, ROUTES, SECTION_IDS } from '@/data/site';
 import { useSmoothScroll } from '@/hooks/useSmoothScroll';
 import { UI_TRANSITION } from '@/lib/motion';
 import BrandLink from './BrandLink';
@@ -12,27 +13,50 @@ const LINK_STAGGER_S = 0.04;
 const LINK_OFFSET_PX = 16;
 
 export default function MobileMenu({ isOpen, onOpenChange }) {
-  const { navigateTo, setLocked } = useSmoothScroll();
-  const pendingTargetRef = useRef(null);
+  const { navigateTo, scrollToTop, setLocked } = useSmoothScroll();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const pendingHrefRef = useRef(null);
 
   useEffect(() => {
     setLocked(isOpen);
   }, [isOpen, setLocked]);
 
-  // Close first, then scroll once the dialog has handed focus back,
-  // so focus lands on the chosen section instead of the menu button.
-  function handleNavigate(event, targetId) {
+  // Close first, then move once the dialog has handed focus back,
+  // so focus lands on the destination instead of the menu button.
+  function handleNavigate(event, href) {
     event.preventDefault();
-    pendingTargetRef.current = targetId;
+    pendingHrefRef.current = href;
     onOpenChange(false);
   }
 
   function handleCloseAutoFocus(event) {
-    const targetId = pendingTargetRef.current;
-    if (!targetId) return;
+    const href = pendingHrefRef.current;
+    if (!href) return;
     event.preventDefault();
-    pendingTargetRef.current = null;
-    navigateTo(targetId);
+    pendingHrefRef.current = null;
+
+    if (href.startsWith('#')) {
+      navigateTo(href.slice(1));
+      return;
+    }
+
+    const url = new URL(href, window.location.origin);
+    const hashId = url.hash.replace(/^#/, '');
+    const isSamePage = url.pathname === location.pathname;
+
+    if (isSamePage && hashId) {
+      navigateTo(hashId);
+      return;
+    }
+
+    if (isSamePage && href === ROUTES.home) {
+      scrollToTop();
+      navigateTo(SECTION_IDS.home);
+      return;
+    }
+
+    navigate(href);
   }
 
   return (
@@ -56,7 +80,7 @@ export default function MobileMenu({ isOpen, onOpenChange }) {
                 <Dialog.Title className="sr-only">Site menu</Dialog.Title>
 
                 <div className="container flex h-(--nav-height) shrink-0 items-center justify-between gap-4">
-                  <BrandLink onClick={(event) => handleNavigate(event, SECTION_IDS.home)} />
+                  <BrandLink onClick={(event) => handleNavigate(event, ROUTES.home)} />
                   <Dialog.Close asChild>
                     <Button variant="ghost" size="icon" aria-label="Close menu">
                       <X className="size-6" aria-hidden="true" />
@@ -74,8 +98,8 @@ export default function MobileMenu({ isOpen, onOpenChange }) {
                         transition={{ ...UI_TRANSITION, delay: index * LINK_STAGGER_S }}
                       >
                         <a
-                          href={`#${link.id}`}
-                          onClick={(event) => handleNavigate(event, link.id)}
+                          href={link.href}
+                          onClick={(event) => handleNavigate(event, link.href)}
                           className="group flex min-h-14 items-baseline gap-4 rounded-sm py-2 font-display text-2xl no-underline"
                         >
                           <span className="font-sans text-sm text-primary-foreground/70 tabular-nums">
@@ -97,7 +121,7 @@ export default function MobileMenu({ isOpen, onOpenChange }) {
                   >
                     {CONTACT_DETAILS.email}
                   </a>
-                  <Button variant="inverse" onClick={(event) => handleNavigate(event, BOOKING_CTA.id)}>
+                  <Button variant="inverse" onClick={(event) => handleNavigate(event, BOOKING_HREF)}>
                     {BOOKING_CTA.label}
                     <ArrowRight aria-hidden="true" />
                   </Button>

@@ -113,3 +113,9 @@ export const destinations = [
 export function findDestination(destinationId) {
   return destinations.find((destination) => destination.id === destinationId);
 }
+
+// Homepage gallery only. Order is the scroll order; objects are the same
+// ones as in `destinations`, not copies.
+export const FEATURED_DESTINATION_IDS = ['bali', 'swiss-alps', 'kyoto'];
+
+export const featuredDestinations = FEATURED_DESTINATION_IDS.map((id) => findDestination(id)).filter(Boolean);

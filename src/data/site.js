@@ -1,5 +1,6 @@
 export const SECTION_IDS = {
   home: 'home',
+  featured: 'featured',
   destinations: 'destinations',
   packages: 'packages',
   gallery: 'gallery',
@@ -7,19 +8,27 @@ export const SECTION_IDS = {
   contact: 'contact',
 };
 
+export const ROUTES = {
+  home: '/',
+  destinations: '/destinations',
+};
+
+// `href` is either a route (`/destinations`, `/#packages`) or a same-page
+// hash (`#contact`) when the target exists on every page.
 export const NAV_LINKS = [
-  { id: SECTION_IDS.destinations, label: 'Destinations' },
-  { id: SECTION_IDS.packages, label: 'Packages' },
-  { id: SECTION_IDS.gallery, label: 'Gallery' },
-  { id: SECTION_IDS.contact, label: 'Contact' },
+  { id: SECTION_IDS.destinations, label: 'Destinations', href: ROUTES.destinations },
+  { id: SECTION_IDS.packages, label: 'Packages', href: `/#${SECTION_IDS.packages}` },
+  { id: SECTION_IDS.gallery, label: 'Gallery', href: `/#${SECTION_IDS.gallery}` },
+  { id: SECTION_IDS.contact, label: 'Contact', href: `#${SECTION_IDS.contact}` },
 ];
 
 export const BOOKING_CTA = { id: SECTION_IDS.booking, label: 'Book a trip', cursorLabel: 'Book' };
 
-// Order matters: this is the order the sections appear on the page.
+export const BOOKING_HREF = `/#${SECTION_IDS.booking}`;
+
+// Homepage sections only. Destinations is a route, so it is not scroll-spied.
 export const TRACKED_SECTIONS = [
   SECTION_IDS.home,
-  SECTION_IDS.destinations,
   SECTION_IDS.packages,
   SECTION_IDS.gallery,
   SECTION_IDS.booking,

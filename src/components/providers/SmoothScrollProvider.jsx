@@ -6,6 +6,7 @@ import { focusWithoutScroll } from '@/lib/focus';
 import { gsap, ScrollTrigger } from '@/lib/gsap';
 import { REDUCED_MOTION_QUERY } from '@/lib/mediaQueries';
 import { SmoothScrollContext } from '@/lib/smoothScrollContext';
+import RouteScroll from './RouteScroll';
 
 // GSAP's own defaults, restored when Lenis stops driving the ticker.
 const DEFAULT_LAG_THRESHOLD_MS = 500;
@@ -49,11 +50,21 @@ export default function SmoothScrollProvider({ children }) {
   }, [prefersReducedMotion]);
 
   // Both paths respect each section's CSS scroll-margin-top.
-  const scrollTo = useCallback((target) => {
+  const scrollTo = useCallback((target, { immediate = false } = {}) => {
     const element = resolveTarget(target);
     if (!element) return;
-    if (lenisRef.current) lenisRef.current.scrollTo(element);
+    if (lenisRef.current) lenisRef.current.scrollTo(element, { immediate });
     else element.scrollIntoView({ block: 'start' });
+  }, []);
+
+  const scrollToY = useCallback((y) => {
+    if (lenisRef.current) lenisRef.current.scrollTo(y);
+    else window.scrollTo({ top: y, behavior: 'smooth' });
+  }, []);
+
+  const scrollToTop = useCallback(() => {
+    if (lenisRef.current) lenisRef.current.scrollTo(0, { immediate: true });
+    else window.scrollTo(0, 0);
   }, []);
 
   // An in-page jump that also carries keyboard focus to the destination.
@@ -87,7 +98,15 @@ export default function SmoothScrollProvider({ children }) {
     return () => document.removeEventListener('click', handleAnchorClick);
   }, [navigateTo]);
 
-  const value = useMemo(() => ({ scrollTo, navigateTo, setLocked }), [scrollTo, navigateTo, setLocked]);
+  const value = useMemo(
+    () => ({ scrollTo, scrollToY, scrollToTop, navigateTo, setLocked }),
+    [scrollTo, scrollToY, scrollToTop, navigateTo, setLocked],
+  );
 
-  return <SmoothScrollContext.Provider value={value}>{children}</SmoothScrollContext.Provider>;
+  return (
+    <SmoothScrollContext.Provider value={value}>
+      {children}
+      <RouteScroll />
+    </SmoothScrollContext.Provider>
+  );
 }

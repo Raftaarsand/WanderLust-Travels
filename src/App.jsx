@@ -1,20 +1,30 @@
 import { useState } from 'react';
 import { MotionConfig } from 'framer-motion';
-import Booking from '@/components/Booking';
+import { Navigate, Route, Routes, useNavigate } from 'react-router-dom';
 import CustomCursor from '@/components/cursor/CustomCursor';
-import Destinations from '@/components/Destinations';
 import Footer from '@/components/Footer';
-import Gallery from '@/components/Gallery';
-import Hero from '@/components/Hero';
 import Navbar from '@/components/navbar/Navbar';
-import Packages from '@/components/Packages';
 import SmoothScrollProvider from '@/components/providers/SmoothScrollProvider';
+import { SECTION_IDS } from '@/data/site';
 import { UI_TRANSITION } from '@/lib/motion';
+import DestinationsPage from '@/pages/DestinationsPage';
+import HomePage from '@/pages/HomePage';
 
 export default function App() {
   // A new object each time a visitor picks a destination or package,
   // so the booking form knows to prefill and scroll into view.
   const [bookingPreset, setBookingPreset] = useState(null);
+  const navigate = useNavigate();
+
+  function handlePlanTrip(destinationId) {
+    setBookingPreset({ destinationId, requestedAt: Date.now() });
+    navigate(`/#${SECTION_IDS.booking}`);
+  }
+
+  function handleChoosePackage(packageId) {
+    setBookingPreset({ packageId, requestedAt: Date.now() });
+    navigate(`/#${SECTION_IDS.booking}`);
+  }
 
   return (
     <MotionConfig reducedMotion="user" transition={UI_TRANSITION}>
@@ -26,13 +36,20 @@ export default function App() {
           Skip to main content
         </a>
         <Navbar />
-        <main id="main">
-          <Hero />
-          <Destinations onPlanTrip={(destinationId) => setBookingPreset({ destinationId })} />
-          <Packages onChoosePackage={(packageId) => setBookingPreset({ packageId })} />
-          <Gallery />
-          <Booking preset={bookingPreset} />
-        </main>
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <HomePage
+                bookingPreset={bookingPreset}
+                onPlanTrip={handlePlanTrip}
+                onChoosePackage={handleChoosePackage}
+              />
+            }
+          />
+          <Route path="/destinations" element={<DestinationsPage onPlanTrip={handlePlanTrip} />} />
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Routes>
         <Footer />
         <CustomCursor />
       </SmoothScrollProvider>

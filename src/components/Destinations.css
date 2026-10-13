@@ -1,3 +1,27 @@
+.destinations-page {
+  padding-top: calc(var(--nav-height) + var(--space-6));
+}
+
+.destinations-page__back {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: var(--touch-target);
+  margin-bottom: var(--space-6);
+  color: var(--color-primary);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-bold);
+  text-decoration: none;
+}
+
+.destinations-page__back:hover {
+  color: var(--color-accent);
+}
+
+.destinations-page__back:active {
+  transform: translateX(-2px);
+}
+
 .destinations__grid {
   display: grid;
   gap: var(--space-6) var(--space-5);

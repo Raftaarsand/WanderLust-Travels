@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
+import { Link, useLocation } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import { BOOKING_CTA, TRACKED_SECTIONS } from '@/data/site';
+import { BOOKING_CTA, BOOKING_HREF, TRACKED_SECTIONS } from '@/data/site';
 import { useActiveSection } from '@/hooks/useActiveSection';
 import { useHideOnScroll } from '@/hooks/useHideOnScroll';
 import { useMediaQuery } from '@/hooks/useMediaQuery';
@@ -16,12 +17,14 @@ const SCROLL_OPTIONS = { topThresholdPx: 24, hideAfterPx: 160, tolerancePx: 6 };
 export default function Navbar() {
   const [isMenuRequested, setIsMenuRequested] = useState(false);
   const [hasFocusWithin, setHasFocusWithin] = useState(false);
+  const { pathname } = useLocation();
   const isDesktop = useMediaQuery(DESKTOP_NAV_QUERY);
   const { isAtTop, isHidden } = useHideOnScroll(SCROLL_OPTIONS);
-  const activeId = useActiveSection(TRACKED_SECTIONS);
+  const activeId = useActiveSection(TRACKED_SECTIONS, pathname);
 
   const isMenuOpen = isMenuRequested && !isDesktop;
-  const isSolid = !isAtTop;
+  // The transparent bar is only readable over the homepage hero.
+  const isSolid = pathname !== '/' || !isAtTop;
   const shouldHide = isHidden && !hasFocusWithin && !isMenuOpen;
 
   function handleBlur(event) {
@@ -58,7 +61,7 @@ export default function Navbar() {
             className="hidden sm:inline-flex"
             data-cursor={BOOKING_CTA.cursorLabel}
           >
-            <a href={`#${BOOKING_CTA.id}`}>{BOOKING_CTA.label}</a>
+            <Link to={BOOKING_HREF}>{BOOKING_CTA.label}</Link>
           </Button>
           <MobileMenu isOpen={isMenuOpen} onOpenChange={setIsMenuRequested} />
         </div>

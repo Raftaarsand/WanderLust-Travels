@@ -1,6 +1,7 @@
 import { ArrowUp, ArrowUpRight, Clock, Mail, MapPin, Phone } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import BrandMark from './BrandMark';
-import { CONTACT_DETAILS, NAV_LINKS, SECTION_IDS, SOCIAL_LINKS } from '../data/site';
+import { BOOKING_HREF, CONTACT_DETAILS, NAV_LINKS, SECTION_IDS, SOCIAL_LINKS } from '../data/site';
 import './Footer.css';
 
 export default function Footer() {
@@ -36,15 +37,21 @@ export default function Footer() {
           <ul className="footer__links">
             {NAV_LINKS.map((link) => (
               <li key={link.id}>
-                <a href={`#${link.id}`} className="footer__link">
-                  {link.label}
-                </a>
+                {link.href.startsWith('/') ? (
+                  <Link to={link.href} className="footer__link">
+                    {link.label}
+                  </Link>
+                ) : (
+                  <a href={link.href} className="footer__link">
+                    {link.label}
+                  </a>
+                )}
               </li>
             ))}
             <li>
-              <a href={`#${SECTION_IDS.booking}`} className="footer__link">
+              <Link to={BOOKING_HREF} className="footer__link">
                 Book a Trip
-              </a>
+              </Link>
             </li>
           </ul>
         </nav>
@@ -75,7 +82,7 @@ export default function Footer() {
 
       <div className="container footer__bottom">
         <p>© {currentYear} Wanderlust Travels. A fictional travel agency built as a frontend demo.</p>
-        <a href={`#${SECTION_IDS.home}`} className="footer__link">
+        <a href="#main" className="footer__link">
           Back to top
           <ArrowUp size={16} aria-hidden="true" />
         </a>

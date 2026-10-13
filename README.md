@@ -15,6 +15,15 @@ npm run dev
 
 Then open the URL Vite prints (usually http://localhost:5173).
 
+Routing uses `react-router-dom` (installed with the dependencies above).
+
+| URL | Page |
+| --- | --- |
+| `/` | Homepage. Featured gallery shows Bali, the Swiss Alps and Kyoto. |
+| `/destinations` | All six destinations in a grid. |
+
+Refreshing `/destinations` works in `npm run dev` and `npm run preview`, because Vite serves `index.html` for unknown paths. A static host needs the same fallback.
+
 | Command           | What it does                       |
 | ----------------- | ---------------------------------- |
 | `npm run build`   | Production build into `dist/`      |
@@ -36,7 +45,8 @@ Then open the URL Vite prints (usually http://localhost:5173).
 ```
 src/
   main.jsx                     Entry: fonts + global CSS
-  App.jsx                      MotionConfig, smooth scroll provider, page sections
+  App.jsx                      Routes, booking preset shared by both pages
+  pages/                       HomePage, DestinationsPage
   index.css                    Design tokens (@theme), base styles, utilities
   styles/legacy.css            Temporary aliases for sections not yet rebuilt
   components/
@@ -74,6 +84,10 @@ src/
 - **Animation ownership:** GSAP owns scroll and pointer-driven transforms, Framer Motion
   owns component state. No element is animated by both: where both are needed, GSAP
   moves a wrapper and Framer Motion animates its child.
+- **Featured gallery:** on screens at least 768px wide, vertical scrolling through a measured
+  runway slides three destination cards sideways. The runway length is the track's
+  overflow, not a fixed pixel value. Phones, and anyone who prefers reduced motion,
+  get a normal stacked or grid layout instead. The full set of six lives at `/destinations`.
 - **Smooth scroll:** Lenis runs on the GSAP ticker and feeds `ScrollTrigger.update`, so
   scroll animations never drift. In-page links scroll through Lenis, respect each
   section's `scroll-margin-top`, and move keyboard focus to the destination.

@@ -7,7 +7,7 @@ const BOTTOM_TOLERANCE_PX = 4;
 
 // Returns the id of the section currently in view.
 // `sectionIds` must be a stable array (define it outside the component).
-export function useActiveSection(sectionIds) {
+export function useActiveSection(sectionIds, resetKey = '') {
   const [activeId, setActiveId] = useState(sectionIds[0]);
 
   useEffect(() => {
@@ -39,7 +39,7 @@ export function useActiveSection(sectionIds) {
       observer.disconnect();
       window.removeEventListener('scroll', handleScroll);
     };
-  }, [sectionIds]);
+  }, [sectionIds, resetKey]);
 
   return activeId;
 }
