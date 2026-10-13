@@ -17,9 +17,9 @@ function resolveTarget(target) {
   return typeof target === 'string' ? document.getElementById(target) : target;
 }
 
-// Native <dialog>s scroll on their own instead of through Lenis.
+// Native <dialog>s, including clicks on their contents, scroll on their own.
 function shouldPreventSmoothScroll(node) {
-  return node.nodeName === 'DIALOG';
+  return node instanceof Element && node.closest('dialog') !== null;
 }
 
 function isPlainLeftClick(event) {

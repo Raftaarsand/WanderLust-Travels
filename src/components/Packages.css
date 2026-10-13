@@ -81,18 +81,78 @@
   color: var(--color-muted-foreground);
 }
 
-/* ---------- Grid ---------- */
-.packages__grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 23rem));
-  justify-content: center;
-  align-items: center;
-  gap: var(--space-5);
+/* ---------- Endless loop ---------- */
+.packages__marquee {
+  /* Stay one pixel inside a single unique set, so the looping copy never shares the screen. */
+  width: min(100%, calc(var(--package-count) * min(20rem, 78vw) - 1px));
+  margin-inline: auto;
+  overflow: hidden;
+  padding-block: var(--space-6);
 }
 
-.packages__grid > li {
+.packages__track {
   display: flex;
-  animation: fade-up var(--duration-base) var(--ease) both;
+  width: max-content;
+  animation: packages-loop var(--loop-duration, 48s) linear infinite;
+  will-change: transform;
+}
+
+.packages__marquee:hover .packages__track,
+.packages__marquee:focus-within .packages__track {
+  animation-play-state: paused;
+}
+
+.packages__set {
+  display: flex;
+  flex-shrink: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.packages__item {
+  display: flex;
+  flex: 0 0 auto;
+  width: min(20rem, 78vw);
+  padding-right: var(--space-5);
+}
+
+@keyframes packages-loop {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .packages__marquee {
+    width: 100%;
+    overflow: visible;
+    padding-inline: var(--container-gutter);
+  }
+
+  .packages__track {
+    flex-wrap: wrap;
+    justify-content: center;
+    width: min(100%, var(--container-max));
+    margin-inline: auto;
+    animation: none !important;
+    transform: none !important;
+  }
+
+  .packages__set[aria-hidden='true'],
+  .packages__item[data-clone] {
+    display: none !important;
+  }
+
+  .packages__set {
+    flex-wrap: wrap;
+    justify-content: center;
+    row-gap: var(--space-5);
+  }
 }
 
 .packages__empty {

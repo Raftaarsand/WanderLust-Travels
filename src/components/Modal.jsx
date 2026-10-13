@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { X } from 'lucide-react';
+import { useSmoothScroll } from '@/hooks/useSmoothScroll';
 import './Modal.css';
 
 // A small wrapper around the native <dialog> element.
@@ -7,6 +8,7 @@ import './Modal.css';
 // restoration for free; we add backdrop-click closing and a close button.
 export default function Modal({ isOpen, onClose, labelledBy, variant = 'light', children }) {
   const dialogRef = useRef(null);
+  const { setLocked } = useSmoothScroll();
 
   useEffect(() => {
     const dialog = dialogRef.current;
@@ -14,6 +16,13 @@ export default function Modal({ isOpen, onClose, labelledBy, variant = 'light', 
     if (isOpen && !dialog.open) dialog.showModal();
     if (!isOpen && dialog.open) dialog.close();
   }, [isOpen]);
+
+  // Lenis scrolls independently of overflow:hidden, so freeze it while a dialog is up.
+  useEffect(() => {
+    if (!isOpen) return undefined;
+    setLocked(true);
+    return () => setLocked(false);
+  }, [isOpen, setLocked]);
 
   function handleClick(event) {
     if (event.target === dialogRef.current) onClose();

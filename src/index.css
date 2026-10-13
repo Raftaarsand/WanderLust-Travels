@@ -152,6 +152,16 @@
   cursor: auto;
 }
 
+/* A modal dialog paints in the top layer, above the custom cursor. */
+.has-custom-cursor dialog,
+.has-custom-cursor dialog * {
+  cursor: auto;
+}
+
+.has-custom-cursor dialog :is(a, button, [role="button"], label, summary) {
+  cursor: pointer;
+}
+
 @utility container {
   width: min(100% - 2 * var(--container-gutter), var(--container-max));
   max-width: none;

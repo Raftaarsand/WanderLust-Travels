@@ -1,14 +1,21 @@
 .modal {
-  width: 100%;
-  max-width: min(100% - 2 * var(--space-4), 48rem);
+  /* Preflight sets margin: 0, which pins a modal dialog to the top-left.
+     inset + margin: auto puts it back in the middle of the viewport. */
+  position: fixed;
+  inset: 0;
+  width: min(100% - 2 * var(--space-4), 48rem);
+  height: fit-content;
   max-height: calc(100dvh - 2 * var(--space-4));
+  margin: auto;
   padding: 0;
   border: none;
   border-radius: var(--radius-lg);
   background-color: var(--color-surface);
   color: var(--color-text);
   box-shadow: var(--shadow-lg);
-  overflow: auto;
+  overflow-x: clip;
+  overflow-y: auto;
+  overscroll-behavior: contain;
 }
 
 .modal[open] {
@@ -20,13 +27,15 @@
 }
 
 .modal--dark {
-  max-width: min(100% - 2 * var(--space-4), 70rem);
+  width: min(100% - 2 * var(--space-4), 70rem);
   background-color: var(--color-text);
   color: var(--color-on-dark);
 }
 
 .modal__body {
   position: relative;
+  min-width: 0;
+  max-width: 100%;
 }
 
 .modal__close {

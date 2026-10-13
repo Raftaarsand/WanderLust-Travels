@@ -19,8 +19,11 @@ export default function Lightbox({ photos, activeIndex, onNavigate }) {
 
   useEffect(() => {
     function handleKeyDown(event) {
-      if (event.key === 'ArrowLeft') onNavigate(getWrappedIndex(activeIndex - 1, total));
-      if (event.key === 'ArrowRight') onNavigate(getWrappedIndex(activeIndex + 1, total));
+      if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return;
+      if (event.altKey || event.ctrlKey || event.metaKey) return;
+      event.preventDefault();
+      const direction = event.key === 'ArrowRight' ? 1 : -1;
+      onNavigate(getWrappedIndex(activeIndex + direction, total));
     }
 
     document.addEventListener('keydown', handleKeyDown);
@@ -34,12 +37,13 @@ export default function Lightbox({ photos, activeIndex, onNavigate }) {
           src={unsplashUrl(photo.photoId, IMAGE_WIDTHS.full)}
           alt={photo.alt}
           loading="eager"
+          fetchPriority="high"
           className="lightbox__image"
         />
       </div>
 
       <figcaption className="lightbox__caption">
-        <div>
+        <div className="lightbox__meta">
           <p id={LIGHTBOX_TITLE_ID} className="lightbox__title">
             {photo.caption}
           </p>
@@ -49,12 +53,17 @@ export default function Lightbox({ photos, activeIndex, onNavigate }) {
           </p>
         </div>
 
-        <div className="lightbox__controls">
+        <div className="lightbox__controls" role="group" aria-label="Browse photos">
           <button type="button" className="icon-btn icon-btn--on-dark" onClick={showPrevious} aria-label="Previous photo">
             <ChevronLeft size={22} aria-hidden="true" />
           </button>
           <p className="lightbox__counter" aria-live="polite">
-            {activeIndex + 1} / {total}
+            <span className="visually-hidden">
+              Photo {activeIndex + 1} of {total}: {photo.caption}, {photo.location}.
+            </span>
+            <span aria-hidden="true">
+              {activeIndex + 1} / {total}
+            </span>
           </p>
           <button type="button" className="icon-btn icon-btn--on-dark" onClick={showNext} aria-label="Next photo">
             <ChevronRight size={22} aria-hidden="true" />

@@ -1,9 +1,9 @@
 import { Check, Clock, MapPin, Star } from 'lucide-react';
 import { formatRupees } from '../lib/format';
 
-export default function PackageCard({ travelPackage, onChoose }) {
+export default function PackageCard({ travelPackage, onChoose, headingId, tabIndex }) {
   const { id, name, tagline, price, duration, sampleDestination, includes, recommended } = travelPackage;
-  const titleId = `package-${id}-title`;
+  const titleId = headingId === null ? undefined : (headingId ?? `package-${id}-title`);
 
   return (
     <article
@@ -56,6 +56,7 @@ export default function PackageCard({ travelPackage, onChoose }) {
       <button
         type="button"
         className={`btn btn--block ${recommended ? 'btn--primary' : 'btn--outline'}`}
+        tabIndex={tabIndex}
         onClick={() => onChoose(id)}
         aria-label={`Choose the ${name} package`}
       >
