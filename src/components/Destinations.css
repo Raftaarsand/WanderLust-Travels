@@ -1,0 +1,223 @@
+.destinations__grid {
+  display: grid;
+  gap: var(--space-6) var(--space-5);
+}
+
+.destinations__grid > li {
+  display: flex;
+}
+
+@media (min-width: 640px) {
+  .destinations__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1024px) {
+  .destinations__grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  /* Editorial rhythm: the middle column sits slightly lower */
+  .destinations__grid > li:nth-child(3n + 2) {
+    margin-top: var(--space-7);
+  }
+}
+
+/* ---------- Card ---------- */
+.destination-card {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.destination-card__media {
+  position: relative;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+
+.destination-card__image {
+  aspect-ratio: 4 / 5;
+}
+
+.destination-card:hover .destination-card__image img {
+  transform: scale(1.05);
+}
+
+.destination-card__tag {
+  position: absolute;
+  top: var(--space-3);
+  left: var(--space-3);
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-pill);
+  background-color: var(--color-surface);
+  color: var(--color-primary);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  box-shadow: var(--shadow-sm);
+}
+
+.destination-card__body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--space-4) var(--space-1) 0;
+}
+
+.destination-card__country {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-bold);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-secondary);
+}
+
+.destination-card__title {
+  font-size: var(--text-xl);
+  color: var(--color-primary);
+}
+
+.destination-card__description {
+  color: var(--color-muted);
+}
+
+.destination-card__footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  margin-top: auto;
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--color-border);
+}
+
+.destination-card__price {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0 var(--space-1);
+  font-size: var(--text-sm);
+  color: var(--color-muted);
+}
+
+.destination-card__price strong {
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  color: var(--color-text);
+}
+
+/* ---------- Details dialog ---------- */
+.destination-details {
+  display: grid;
+}
+
+.destination-details__image {
+  aspect-ratio: 16 / 9;
+}
+
+.destination-details__content {
+  display: grid;
+  gap: var(--space-4);
+  padding: var(--space-5);
+}
+
+.destination-details__title {
+  font-size: var(--text-2xl);
+  color: var(--color-primary);
+}
+
+.destination-details__description {
+  color: var(--color-muted);
+}
+
+.destination-details__facts {
+  display: grid;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  border-radius: var(--radius-md);
+  background-color: var(--color-surface-alt);
+}
+
+.destination-details__fact {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  column-gap: var(--space-3);
+  align-items: center;
+  color: var(--color-secondary);
+}
+
+.destination-details__fact svg {
+  grid-row: span 2;
+}
+
+.destination-details__fact dt {
+  font-size: var(--text-sm);
+  color: var(--color-muted);
+}
+
+.destination-details__fact dd {
+  font-weight: var(--weight-bold);
+  color: var(--color-text);
+}
+
+.destination-details__subtitle {
+  font-size: var(--text-lg);
+  color: var(--color-primary);
+}
+
+.destination-details__highlights {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.destination-details__highlights li {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-2);
+}
+
+.destination-details__highlights svg {
+  flex-shrink: 0;
+  margin-top: var(--space-1);
+  color: var(--color-success);
+}
+
+.destination-details__note {
+  font-size: var(--text-sm);
+  color: var(--color-muted);
+  text-align: center;
+}
+
+@media (min-width: 768px) {
+  .destination-details {
+    grid-template-columns: 5fr 6fr;
+  }
+
+  .destination-details__image {
+    aspect-ratio: auto;
+    height: 100%;
+  }
+
+  .destination-details__content {
+    padding: var(--space-6);
+  }
+
+  .destination-details__facts {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .destination-details__fact {
+    grid-template-columns: 1fr;
+    row-gap: var(--space-1);
+  }
+
+  .destination-details__fact svg {
+    grid-row: auto;
+  }
+}
