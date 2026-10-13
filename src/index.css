@@ -1,389 +1,172 @@
-/* =========================================================
-   1. Design tokens
-   Every color, font, size, radius, shadow and timing used in
-   the app lives here. Components only reference these variables.
-   ========================================================= */
-:root {
-  /* Raw palette */
-  --forest-900: #1d3a2c;
-  --forest-700: #2b5340;
-  --teal-600: #3d7672;
-  --teal-100: #dcebe7;
-  --cream-50: #fbf7f0;
-  --cream-100: #f4ede0;
-  --cream-200: #e7dccb;
-  --terracotta-600: #b4502c;
-  --terracotta-700: #963f20;
-  --terracotta-300: #d9774f;
-  --ink-900: #1a2420;
-  --ink-600: #4d5a54;
-  --stone-500: #7c8781;
-  --paper: #fffdf9;
-  --red-700: #a3301f;
-  --red-50: #fbeae6;
-  --green-700: #2e6a46;
+@import "tailwindcss";
+@import "./styles/legacy.css";
 
-  /* Semantic colors */
-  --color-bg: var(--cream-50);
-  --color-surface: var(--paper);
-  --color-surface-alt: var(--cream-100);
-  --color-primary: var(--forest-900);
-  --color-primary-hover: var(--forest-700);
-  --color-secondary: var(--teal-600);
-  --color-secondary-soft: var(--teal-100);
-  --color-accent: var(--terracotta-600);
-  --color-accent-hover: var(--terracotta-700);
-  --color-accent-soft: var(--terracotta-300);
-  --color-text: var(--ink-900);
-  --color-muted: var(--ink-600);
-  --color-border: var(--cream-200);
-  --color-input-border: var(--stone-500);
-  --color-on-dark: var(--cream-50);
-  --color-on-dark-muted: rgb(251 247 240 / 0.82);
-  --color-on-dark-subtle: rgb(251 247 240 / 0.14);
-  --color-on-dark-border: rgb(251 247 240 / 0.32);
+/* =========================================================
+   Design tokens
+   Every colour, font, size, radius, shadow and easing in the
+   app is defined here. Components only use these tokens.
+   ========================================================= */
+@theme {
+  --color-*: initial;
+  --font-*: initial;
+  --text-*: initial;
+  --radius-*: initial;
+  --shadow-*: initial;
+  --ease-*: initial;
+
+  /* Neutrals: warm paper and green-black ink */
+  --color-background: #fbf7f0;
+  --color-foreground: #1a2420;
+  --color-surface: #fffdf9;
+  --color-surface-foreground: #1a2420;
+  --color-muted: #f4ede0;
+  --color-muted-foreground: #4d5a54;
+  --color-border: #e7dccb;
+  --color-input: #7c8781;
+
+  /* Primary: deep forest. Accent: terracotta, for calls to action only */
+  --color-primary: #1d3a2c;
+  --color-primary-hover: #2b5340;
+  --color-primary-foreground: #fbf7f0;
+  --color-accent: #b4502c;
+  --color-accent-hover: #963f20;
+  --color-accent-foreground: #fffdf9;
+  --color-ring: #b4502c;
+
+  /* Feedback */
+  --color-success: #2e6a46;
+  --color-danger: #a3301f;
+  --color-danger-soft: #fbeae6;
+
+  /* Scrims over photography */
   --color-overlay: rgb(14 26 20 / 0.58);
   --color-overlay-strong: rgb(14 26 20 / 0.82);
-  --color-backdrop: rgb(14 26 20 / 0.78);
-  --color-success: var(--green-700);
-  --color-danger: var(--red-700);
-  --color-danger-soft: var(--red-50);
-  --color-focus: var(--terracotta-600);
 
-  /* Typography */
-  --font-display: "Fraunces", Georgia, "Times New Roman", serif;
-  --font-body: "Manrope", "Segoe UI", sans-serif;
+  /* Pure white/black: required for the difference-blended cursor */
+  --color-cursor: #ffffff;
+  --color-cursor-foreground: #000000;
+
+  /* Type: one display serif, one body sans, six sizes */
+  --font-display: "Fraunces Variable", Georgia, "Times New Roman", serif;
+  --font-sans: "Manrope Variable", "Segoe UI", sans-serif;
 
   --text-sm: 0.875rem;
+  --text-sm--line-height: 1.5;
   --text-base: 1rem;
+  --text-base--line-height: 1.65;
   --text-lg: 1.25rem;
+  --text-lg--line-height: 1.4;
   --text-xl: 1.75rem;
+  --text-xl--line-height: 1.25;
   --text-2xl: clamp(2rem, 1.4rem + 2.6vw, 2.875rem);
+  --text-2xl--line-height: 1.12;
   --text-display: clamp(2.5rem, 1.6rem + 4.8vw, 4.75rem);
-
-  --leading-tight: 1.12;
-  --leading-snug: 1.35;
-  --leading-body: 1.65;
-
-  --weight-regular: 400;
-  --weight-medium: 500;
-  --weight-semibold: 600;
-  --weight-bold: 700;
-
-  /* Spacing (4px grid) */
-  --space-1: 0.25rem;
-  --space-2: 0.5rem;
-  --space-3: 0.75rem;
-  --space-4: 1rem;
-  --space-5: 1.5rem;
-  --space-6: 2rem;
-  --space-7: 3rem;
-  --space-8: 4rem;
-  --space-9: 6rem;
+  --text-display--line-height: 1;
 
   /* Shape */
   --radius-sm: 0.5rem;
   --radius-md: 1rem;
   --radius-lg: 1.5rem;
-  --radius-pill: 999px;
 
   --shadow-sm: 0 1px 2px rgb(29 58 44 / 0.06), 0 2px 8px rgb(29 58 44 / 0.06);
   --shadow-md: 0 10px 28px rgb(29 58 44 / 0.12);
   --shadow-lg: 0 24px 56px rgb(14 26 20 / 0.24);
 
-  /* Motion */
-  --duration-fast: 150ms;
-  --duration-base: 220ms;
-  --ease: cubic-bezier(0.22, 1, 0.36, 1);
-
-  /* Layout */
-  --container-max: 75rem;
-  --container-gutter: var(--space-4);
-  --nav-height: 4.5rem;
-  --touch-target: 2.75rem;
-  --focus-ring: 3px solid var(--color-focus);
+  /* One easing curve for UI and cinematic motion alike (mirrored in src/lib/motion.js) */
+  --ease-brand: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-@media (min-width: 768px) {
+:root {
+  --duration-fast: 150ms;
+  --duration-base: 220ms;
+
+  --container-max: 75rem;
+  --container-gutter: 1rem;
+  --nav-height: 4.5rem;
+  --touch-target: 2.75rem;
+
+  --z-nav: 40;
+  --z-menu: 50;
+  --z-cursor: 100;
+}
+
+@media (min-width: 48rem) {
   :root {
-    --container-gutter: var(--space-6);
+    --container-gutter: 2rem;
   }
 }
 
 /* =========================================================
-   2. Base styles
+   Base
    ========================================================= */
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    min-width: 20rem;
+    overflow-x: clip;
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+    font-size: var(--text-base);
+    line-height: var(--text-base--line-height);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display);
+    font-weight: 600;
+    line-height: 1.12;
+    letter-spacing: -0.01em;
+  }
+
+  :focus-visible {
+    outline: 3px solid var(--color-ring);
+    outline-offset: 3px;
+  }
+
+  /* Sections focused after an in-page jump shouldn't draw a giant ring */
+  [tabindex="-1"]:focus {
+    outline: none;
+  }
+
+  section[id],
+  footer[id] {
+    scroll-margin-top: var(--nav-height);
+  }
 }
 
-html {
-  scroll-behavior: smooth;
-  -webkit-text-size-adjust: 100%;
+/* Unlayered on purpose so it outranks component `cursor` rules.
+   Text fields keep the native caret. */
+.has-custom-cursor,
+.has-custom-cursor * {
+  cursor: none;
 }
 
-body {
-  margin: 0;
-  min-width: 320px;
-  font-family: var(--font-body);
-  font-size: var(--text-base);
-  line-height: var(--leading-body);
-  color: var(--color-text);
-  background-color: var(--color-bg);
-  -webkit-font-smoothing: antialiased;
-  overflow-x: hidden;
+.has-custom-cursor :is(input, textarea, select, [contenteditable="true"]) {
+  cursor: auto;
 }
 
-body:has(dialog[open]) {
-  overflow: hidden;
-}
-
-h1,
-h2,
-h3,
-h4 {
-  margin: 0;
-  font-family: var(--font-display);
-  font-weight: var(--weight-semibold);
-  line-height: var(--leading-tight);
-  letter-spacing: -0.01em;
-}
-
-p,
-ul,
-ol,
-dl,
-dd,
-figure {
-  margin: 0;
-}
-
-ul,
-ol {
-  padding: 0;
-  list-style: none;
-}
-
-img,
-svg {
-  display: block;
-  max-width: 100%;
-}
-
-a {
-  color: inherit;
-}
-
-button,
-input,
-select,
-textarea {
-  font: inherit;
-  color: inherit;
-}
-
-:focus-visible {
-  outline: var(--focus-ring);
-  outline-offset: 3px;
-}
-
-section[id],
-footer[id] {
-  scroll-margin-top: var(--nav-height);
-}
-
-/* =========================================================
-   3. Layout helpers
-   ========================================================= */
-.container {
+@utility container {
   width: min(100% - 2 * var(--container-gutter), var(--container-max));
+  max-width: none;
   margin-inline: auto;
 }
 
-.section {
-  padding-block: var(--space-8);
+@utility duration-fast {
+  transition-duration: var(--duration-fast);
 }
 
-.section--alt {
-  background-color: var(--color-surface-alt);
+@utility duration-base {
+  transition-duration: var(--duration-base);
 }
 
-@media (min-width: 1024px) {
-  .section {
-    padding-block: var(--space-9);
-  }
-}
-
-.visually-hidden {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0 0 0 0);
-  white-space: nowrap;
-  border: 0;
-}
-
-.skip-link {
-  position: absolute;
-  top: var(--space-2);
-  left: var(--space-2);
-  z-index: 100;
-  padding: var(--space-3) var(--space-4);
-  border-radius: var(--radius-sm);
-  background: var(--color-primary);
-  color: var(--color-on-dark);
-  font-weight: var(--weight-bold);
-  transform: translateY(-200%);
-  transition: transform var(--duration-fast) var(--ease);
-}
-
-.skip-link:focus-visible {
-  transform: translateY(0);
-}
-
-/* =========================================================
-   4. Buttons (shared by every section)
-   ========================================================= */
-.btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: var(--space-2);
-  min-height: var(--touch-target);
-  padding: var(--space-3) var(--space-5);
-  border: 1.5px solid transparent;
-  border-radius: var(--radius-pill);
-  font-size: var(--text-sm);
-  font-weight: var(--weight-bold);
-  letter-spacing: 0.01em;
-  line-height: 1;
-  text-decoration: none;
-  white-space: nowrap;
-  cursor: pointer;
-  transition:
-    background-color var(--duration-fast) var(--ease),
-    color var(--duration-fast) var(--ease),
-    border-color var(--duration-fast) var(--ease),
-    transform var(--duration-fast) var(--ease);
-}
-
-.btn:active:not(:disabled) {
-  transform: scale(0.97);
-}
-
-.btn:disabled {
-  opacity: 0.55;
-  cursor: not-allowed;
-}
-
-.btn--primary {
-  background-color: var(--color-accent);
-  color: var(--color-surface);
-}
-
-.btn--primary:hover:not(:disabled) {
-  background-color: var(--color-accent-hover);
-}
-
-.btn--dark {
-  background-color: var(--color-primary);
-  color: var(--color-on-dark);
-}
-
-.btn--dark:hover:not(:disabled) {
-  background-color: var(--color-primary-hover);
-}
-
-.btn--outline {
-  border-color: var(--color-primary);
-  background-color: transparent;
-  color: var(--color-primary);
-}
-
-.btn--outline:hover:not(:disabled) {
-  background-color: var(--color-primary);
-  color: var(--color-on-dark);
-}
-
-.btn--outline-light {
-  border-color: var(--color-on-dark-border);
-  background-color: var(--color-on-dark-subtle);
-  color: var(--color-on-dark);
-}
-
-.btn--outline-light:hover:not(:disabled) {
-  border-color: var(--color-on-dark);
-  background-color: var(--color-on-dark);
-  color: var(--color-primary);
-}
-
-.btn--block {
-  width: 100%;
-}
-
-.icon-btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  width: var(--touch-target);
-  height: var(--touch-target);
-  padding: 0;
-  border: none;
-  border-radius: var(--radius-pill);
-  background-color: var(--color-surface);
-  color: var(--color-text);
-  box-shadow: var(--shadow-sm);
-  cursor: pointer;
-  transition:
-    background-color var(--duration-fast) var(--ease),
-    transform var(--duration-fast) var(--ease);
-}
-
-.icon-btn:hover:not(:disabled) {
-  background-color: var(--color-surface-alt);
-}
-
-.icon-btn:active:not(:disabled) {
-  transform: scale(0.94);
-}
-
-.icon-btn:disabled {
-  opacity: 0.45;
-  cursor: not-allowed;
-}
-
-.icon-btn--on-dark {
-  background-color: var(--color-on-dark-subtle);
-  color: var(--color-on-dark);
-  box-shadow: none;
-}
-
-.icon-btn--on-dark:hover:not(:disabled) {
-  background-color: var(--color-on-dark-border);
-}
-
-/* Shared entrance animation for content that appears after a state change */
-@keyframes fade-up {
-  from {
-    opacity: 0;
-    transform: translateY(12px);
-  }
-}
-
-/* =========================================================
-   5. Reduced motion
-   ========================================================= */
 @media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto;
-  }
-
   *,
   *::before,
   *::after {

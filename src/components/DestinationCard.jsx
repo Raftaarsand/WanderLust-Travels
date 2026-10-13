@@ -36,6 +36,7 @@ export default function DestinationCard({ destination, onExplore }) {
           <button
             type="button"
             className="btn btn--outline"
+            data-cursor="View"
             onClick={() => onExplore(destination.id)}
             aria-label={`Explore ${destination.name}`}
           >

@@ -40,5 +40,5 @@
 .section-heading__description {
   font-size: var(--text-lg);
   line-height: var(--leading-snug);
-  color: var(--color-muted);
+  color: var(--color-muted-foreground);
 }

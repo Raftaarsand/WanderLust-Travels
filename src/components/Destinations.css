@@ -83,7 +83,7 @@
 }
 
 .destination-card__description {
-  color: var(--color-muted);
+  color: var(--color-muted-foreground);
 }
 
 .destination-card__footer {
@@ -103,7 +103,7 @@
   align-items: baseline;
   gap: 0 var(--space-1);
   font-size: var(--text-sm);
-  color: var(--color-muted);
+  color: var(--color-muted-foreground);
 }
 
 .destination-card__price strong {
@@ -133,7 +133,7 @@
 }
 
 .destination-details__description {
-  color: var(--color-muted);
+  color: var(--color-muted-foreground);
 }
 
 .destination-details__facts {
@@ -158,7 +158,7 @@
 
 .destination-details__fact dt {
   font-size: var(--text-sm);
-  color: var(--color-muted);
+  color: var(--color-muted-foreground);
 }
 
 .destination-details__fact dd {
@@ -190,7 +190,7 @@
 
 .destination-details__note {
   font-size: var(--text-sm);
-  color: var(--color-muted);
+  color: var(--color-muted-foreground);
   text-align: center;
 }
 

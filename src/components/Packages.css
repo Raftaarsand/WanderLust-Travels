@@ -19,7 +19,7 @@
   margin-bottom: var(--space-3);
   font-size: var(--text-sm);
   font-weight: var(--weight-bold);
-  color: var(--color-muted);
+  color: var(--color-muted-foreground);
 }
 
 .budget-filter__options {
@@ -78,7 +78,7 @@
 
 .packages__count {
   font-size: var(--text-sm);
-  color: var(--color-muted);
+  color: var(--color-muted-foreground);
 }
 
 /* ---------- Grid ---------- */
@@ -102,14 +102,14 @@
   padding: var(--space-7) var(--space-4);
   border: 1.5px dashed var(--color-border);
   border-radius: var(--radius-lg);
-  color: var(--color-muted);
+  color: var(--color-muted-foreground);
   text-align: center;
 }
 
 .packages__disclaimer {
   margin-top: var(--space-6);
   font-size: var(--text-sm);
-  color: var(--color-muted);
+  color: var(--color-muted-foreground);
   text-align: center;
 }
 
@@ -176,7 +176,7 @@
 .package-card__tagline,
 .package-card__price-label {
   font-size: var(--text-sm);
-  color: var(--color-muted);
+  color: var(--color-muted-foreground);
 }
 
 .package-card--recommended .package-card__tagline,

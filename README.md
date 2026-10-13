@@ -1,8 +1,8 @@
 # Wanderlust Travels
 
-A responsive, single-page travel agency website built with **React + Vite + plain CSS**.
-Visitors can discover destinations, filter travel packages by budget, browse a photo
-gallery with a lightbox, and fill in a validated booking form.
+A cinematic, single-page travel website: destination cards, trip packages filtered by
+budget, a photo gallery and a booking form with date selection. Built to feel like a
+printed travel magazine that has learned to move.
 
 > This is a frontend demo. No real bookings, payments or emails are ever made.
 
@@ -10,104 +10,82 @@ gallery with a lightbox, and fill in a validated booking form.
 
 ```bash
 npm install
-npm install lucide-react
 npm run dev
 ```
 
 Then open the URL Vite prints (usually http://localhost:5173).
 
-Other scripts:
+| Command           | What it does                       |
+| ----------------- | ---------------------------------- |
+| `npm run build`   | Production build into `dist/`      |
+| `npm run preview` | Serve the production build locally |
+| `npm run lint`    | Lint the code with oxlint          |
 
-| Command           | What it does                        |
-| ----------------- | ----------------------------------- |
-| `npm run build`   | Production build into `dist/`       |
-| `npm run preview` | Serve the production build locally  |
-| `npm run lint`    | Lint the code with oxlint           |
+## Stack
+
+- **React 19 + Vite**
+- **Tailwind CSS v4** (via `@tailwindcss/vite`), all tokens in `src/index.css` under `@theme`
+- **shadcn/ui** (JavaScript, `components.json`) on **Radix** primitives, **Lucide** icons
+- **GSAP + ScrollTrigger** for scroll-driven and pointer-driven animation
+- **Lenis** smooth scrolling, driven by the GSAP ticker
+- **Framer Motion** for component state and layout transitions
+- Self-hosted variable fonts via **Fontsource** (Fraunces, Manrope)
 
 ## Folder structure
 
 ```
-index.html                 Fonts, meta tags, favicon
-public/favicon.svg
 src/
-  main.jsx                 React entry point
-  App.jsx                  Page layout + shared booking "preset" state
-  index.css                Design tokens, base styles, buttons
+  main.jsx                     Entry: fonts + global CSS
+  App.jsx                      MotionConfig, smooth scroll provider, page sections
+  index.css                    Design tokens (@theme), base styles, utilities
+  styles/legacy.css            Temporary aliases for sections not yet rebuilt
   components/
-    Navbar.jsx/.css        Sticky nav, mobile menu, active-section highlight
-    BrandMark.jsx/.css     Compass logo badge
-    Hero.jsx/.css          Full-screen hero with highlight card
-    SectionHeading.jsx/.css
-    SmartImage.jsx/.css    Image with loading shimmer + fallback
-    Modal.jsx/.css         Accessible <dialog> wrapper
-    Destinations.jsx/.css  Grid + details dialog
-    DestinationCard.jsx
-    DestinationDetails.jsx
-    Packages.jsx/.css      Budget filter + package cards
-    BudgetFilter.jsx
-    PackageCard.jsx
-    Gallery.jsx/.css       Asymmetric grid + lightbox
-    Lightbox.jsx
-    Booking.jsx/.css       Booking section layout
-    BookingForm.jsx        Form state + validation
-    FormField.jsx          Label / hint / error wrapper
-    BookingConfirmation.jsx
-    Footer.jsx/.css
-  data/                    destinations, packages, gallery photos, site links
-  hooks/                   useActiveSection, useScrolled
-  lib/                     formatting, dates, validation, image URLs, scrolling
+    ui/button.jsx              shadcn Button with project variants
+    providers/SmoothScrollProvider.jsx
+    cursor/                    CustomCursor, CursorRipple
+    navbar/                    Navbar, DesktopNav, MobileMenu, BrandLink
+    …                          Section components (rebuilt phase by phase)
+  hooks/                       useCustomCursor, useHideOnScroll, useMediaQuery,
+                               useSmoothScroll, useActiveSection
+  lib/                         gsap setup, motion constants, media queries, focus, utils
+  data/                        Destinations, packages, gallery, site links (mock data)
 ```
 
 ## Design brief
 
-- **User:** Indian travellers aged 25–45 planning a holiday, from first-time
-  budget trips to once-a-year splurges.
-- **Problem:** Travel sites feel either like cluttered marketplaces or generic
-  templates. People want inspiration first, then a clear price and an easy way
-  to start planning.
-- **Tone:** A calm, premium travel magazine: editorial photography, generous
-  whitespace, warm paper tones, confident serif headlines.
-- **References:** Condé Nast Traveller editorial layouts, Kinfolk-style
-  restraint, boutique hotel websites.
+- **User:** Indian travellers aged 25–45 planning a holiday, from a first ₹9,000
+  Himalayan weekend to a once-a-year overwater villa.
+- **Problem:** Travel sites are either cluttered marketplaces or forgettable templates.
+  People want to be inspired first, then see an honest price and an easy way to book.
+- **Tone:** Editorial and cinematic. Full-bleed photography, confident serif
+  headlines, warm paper tones, and motion that feels like turning a page.
+- **References:** Condé Nast Traveller layouts, Aesop and Kinfolk restraint, and
+  Awwwards travel and hospitality sites for scroll choreography.
 
 ## Design decisions
 
-- **Palette:** deep forest green (primary), muted teal (secondary details), warm
-  cream backgrounds and a single terracotta accent for calls to action. All
-  colors are CSS variables in `src/index.css`; components never use raw hex
-  values. Text colors meet WCAG AA contrast on their backgrounds.
-- **Type:** *Fraunces* (display serif) for headings and *Manrope* (sans-serif)
-  for body text, on a fixed six-step type scale.
-- **Spacing and shape:** a 4px/8px spacing scale, three corner radii, and three
-  shadow levels used consistently everywhere.
-- **Motion:** 150–220ms transitions with one shared easing curve, used only for
-  hover/focus feedback and content appearing. Everything is turned off when
-  the visitor prefers reduced motion.
-- **Editorial cards:** destination cards use tall 4:5 photos, a small category
-  tag, and an offset middle column on desktop for a magazine rhythm.
-- **Connected flows:** "Choose Package" and "Plan a trip to …" prefill the
-  booking form, scroll to it and move keyboard focus there.
-- **Accessibility:** semantic landmarks, skip link, native `<dialog>` for
-  modals (focus trap and Escape for free), radio-button budget filter, inline
-  errors linked with `aria-describedby`, 44px minimum touch targets.
-- **Images:** photos are loaded from Unsplash. Every image shows a shimmer while
-  loading and a labelled placeholder if it fails, so the layout never breaks.
-
-## Testing checklist
-
-**Responsiveness**
-- [ ] 360px wide: no horizontal scrolling; hamburger menu opens and closes.
-- [ ] 768px: destinations in 2 columns, gallery in 4 columns, form in 2 columns.
-- [ ] 1280px+: full navbar, 3-column destinations, booking intro sticks beside the form.
-
-**Functionality**
-- [ ] Nav links smooth-scroll to each section; the active link updates while scrolling.
-- [ ] "Explore" on a destination opens its details; Escape, the X button and the backdrop close it.
-- [ ] "Plan a trip to …" and "Choose Package" prefill the booking form.
-- [ ] Budget chips filter the packages and update the "Showing N packages" count.
-- [ ] Clicking a gallery photo opens the lightbox; arrow keys and buttons move between photos.
-- [ ] Submitting an empty form shows inline errors and focuses the first invalid field.
-- [ ] Past departure dates are blocked; a return date before departure shows an error.
-- [ ] A valid form shows a loading state, then the trip summary with the demo notice.
-- [ ] "Plan another trip" resets the form.
-- [ ] Turn on "reduce motion" in your OS: animations and smooth scrolling stop.
+- **Palette:** deep forest green (primary), warm paper and ink neutrals, and a single
+  terracotta accent reserved for calls to action. Text pairs meet WCAG AA.
+- **Type:** Fraunces (display serif, optical sizes) with Manrope (body sans) on a six-step scale.
+- **Shape:** three radii (`sm`, `md`, `lg`) plus pills, three shadow levels, 4px spacing grid.
+- **One easing curve** (`cubic-bezier(0.22, 1, 0.36, 1)`) shared by CSS (`ease-brand`),
+  GSAP (`"brand"` CustomEase) and Framer Motion (`EASE_BRAND`). UI feedback runs
+  150–220ms; only the hero and scroll sequences use longer, cinematic durations.
+- **Animation ownership:** GSAP owns scroll and pointer-driven transforms, Framer Motion
+  owns component state. No element is animated by both: where both are needed, GSAP
+  moves a wrapper and Framer Motion animates its child.
+- **Smooth scroll:** Lenis runs on the GSAP ticker and feeds `ScrollTrigger.update`, so
+  scroll animations never drift. In-page links scroll through Lenis, respect each
+  section's `scroll-margin-top`, and move keyboard focus to the destination.
+- **Custom cursor:** a dot that tracks the pointer exactly and a ring that follows with
+  frame-rate-independent lerp. `data-cursor="View"` (or any word) swaps the ring for a
+  labelled disc; clicks squeeze the ring and leave an ink ripple. The ring uses
+  `mix-blend-mode: difference`; labels sit on an unblended layer so they stay legible.
+  Text fields keep the native caret.
+- **Navbar:** transparent over the hero, solid once scrolled; hides on scroll down and
+  returns on scroll up, and always shows while it holds keyboard focus. The mobile menu
+  is a Radix Dialog (focus trap, Esc, focus return) and pauses Lenis while open.
+- **Reduced motion:** Lenis and the custom cursor are switched off entirely, Framer Motion
+  drops transform animations (`MotionConfig reducedMotion="user"`), and CSS transitions
+  are near-instant.
+- **Touch devices:** the custom cursor only mounts for `(hover: hover) and (pointer: fine)`.

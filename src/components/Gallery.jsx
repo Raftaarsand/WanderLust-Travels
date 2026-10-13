@@ -29,6 +29,7 @@ export default function Gallery() {
               <button
                 type="button"
                 className="gallery__button"
+                data-cursor="View"
                 onClick={() => setActiveIndex(index)}
                 aria-label={`View larger: ${photo.caption}, ${photo.location}`}
               >

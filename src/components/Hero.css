@@ -145,7 +145,7 @@
 }
 
 .hero__highlight-price {
-  color: var(--color-muted);
+  color: var(--color-muted-foreground);
 }
 
 @media (min-width: 1024px) {

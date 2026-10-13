@@ -3,7 +3,7 @@ import { CalendarDays, Info, MapPin, Users } from 'lucide-react';
 import BookingForm from './BookingForm';
 import SectionHeading from './SectionHeading';
 import { SECTION_IDS } from '../data/site';
-import { scrollToSection } from '../lib/scroll';
+import { useSmoothScroll } from '../hooks/useSmoothScroll';
 import './Booking.css';
 
 const PLANNING_STEPS = [
@@ -14,14 +14,15 @@ const PLANNING_STEPS = [
 
 export default function Booking({ preset }) {
   const titleRef = useRef(null);
+  const { scrollTo } = useSmoothScroll();
 
   // When another section sends the visitor here, scroll to the form and move
   // keyboard focus with them (instead of leaving it on the button they clicked).
   useEffect(() => {
     if (!preset) return;
-    scrollToSection(SECTION_IDS.booking);
+    scrollTo(SECTION_IDS.booking);
     titleRef.current?.focus({ preventScroll: true });
-  }, [preset]);
+  }, [preset, scrollTo]);
 
   return (
     <section id={SECTION_IDS.booking} className="section section--alt" aria-labelledby="booking-title">

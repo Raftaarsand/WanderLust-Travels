@@ -53,7 +53,7 @@
 }
 
 .booking__step-text {
-  color: var(--color-muted);
+  color: var(--color-muted-foreground);
 }
 
 .booking__notice,
@@ -108,7 +108,7 @@
 
 .booking-form__required-note {
   font-size: var(--text-sm);
-  color: var(--color-muted);
+  color: var(--color-muted-foreground);
 }
 
 .booking-form__summary {
@@ -155,7 +155,7 @@
 
 .booking-form__demo-note {
   font-size: var(--text-sm);
-  color: var(--color-muted);
+  color: var(--color-muted-foreground);
   text-align: center;
 }
 
@@ -180,12 +180,12 @@
 
 .form-field__optional {
   font-weight: var(--weight-regular);
-  color: var(--color-muted);
+  color: var(--color-muted-foreground);
 }
 
 .form-field__hint {
   font-size: var(--text-sm);
-  color: var(--color-muted);
+  color: var(--color-muted-foreground);
 }
 
 .form-field__error {
@@ -218,7 +218,7 @@
 }
 
 .form-control::placeholder {
-  color: var(--color-muted);
+  color: var(--color-muted-foreground);
 }
 
 .form-control:hover:not(:disabled) {
@@ -264,7 +264,7 @@
   position: absolute;
   top: 50%;
   right: var(--space-4);
-  color: var(--color-muted);
+  color: var(--color-muted-foreground);
   transform: translateY(-50%);
   pointer-events: none;
 }
@@ -312,7 +312,7 @@
 }
 
 .booking-confirmation__lead {
-  color: var(--color-muted);
+  color: var(--color-muted-foreground);
 }
 
 .booking-confirmation__summary {
@@ -334,7 +334,7 @@
 
 .booking-confirmation__row dt {
   font-size: var(--text-sm);
-  color: var(--color-muted);
+  color: var(--color-muted-foreground);
 }
 
 .booking-confirmation__row dd {
@@ -352,5 +352,5 @@
 .booking-confirmation__requests {
   width: 100%;
   overflow-wrap: anywhere;
-  color: var(--color-muted);
+  color: var(--color-muted-foreground);
 }

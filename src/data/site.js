@@ -8,12 +8,13 @@ export const SECTION_IDS = {
 };
 
 export const NAV_LINKS = [
-  { id: SECTION_IDS.home, label: 'Home' },
   { id: SECTION_IDS.destinations, label: 'Destinations' },
   { id: SECTION_IDS.packages, label: 'Packages' },
   { id: SECTION_IDS.gallery, label: 'Gallery' },
   { id: SECTION_IDS.contact, label: 'Contact' },
 ];
+
+export const BOOKING_CTA = { id: SECTION_IDS.booking, label: 'Book a trip', cursorLabel: 'Book' };
 
 // Order matters: this is the order the sections appear on the page.
 export const TRACKED_SECTIONS = [
