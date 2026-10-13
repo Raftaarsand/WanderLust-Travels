@@ -1,0 +1,50 @@
+---
+description: UI/UX design and code standards for the competition project
+alwaysApply: true
+---
+
+# Stack
+- React (Vite) + Tailwind CSS + shadcn/ui + Radix + Lucide icons + Framer Motion.
+- Use Context7 for any library/framework docs (Tailwind, shadcn, Framer Motion, etc.) before writing code.
+
+# Design system
+- Define all colors, fonts, radii, and shadows as theme tokens in the Tailwind config / CSS variables. Never hardcode hex values in components.
+- Semantic color tokens only: primary, surface, muted, border, success, danger.
+- One restrained palette (1 primary + neutrals + 1 accent max). Text must meet WCAG AA contrast.
+- Spacing on a 4/8px grid. Use a fixed type scale (max 5-6 sizes). Pair one display font with one body font.
+- Consistent border radius and shadow scale across the whole app.
+
+# Avoid (generic "AI look")
+- No default purple/blue gradients, no glassmorphism everywhere, no emoji as icons.
+- No random shadows, neon glows, or decorative blobs.
+- No placeholder lorem ipsum or "Feature 1/2/3" copy. Write realistic content.
+- Don't use Inter or system fonts by default. Pick an intentional font.
+
+# UX requirements
+- Every screen has empty, loading, and error states.
+- Every interactive element has hover, focus-visible, active, and disabled states.
+- Forms: inline validation, clear error messages, labels (not placeholder-only).
+- Keyboard accessible, semantic HTML, alt text, aria-labels on icon buttons.
+- Clear visual hierarchy: one primary action per screen.
+- Flows must actually work (state, filtering, search, navigation), using mock data or localStorage.
+
+# Responsiveness
+- Mobile-first. Must work at 360px, 768px, 1280px+.
+- No horizontal overflow. Touch targets at least 44px.
+- Use Tailwind breakpoints, flex/grid, and fluid sizing. No fixed pixel widths for layout.
+
+# Motion
+- Subtle only: 150-250ms, one consistent easing.
+- Animate meaningful changes (enter/exit, state change), not decoration.
+- Respect prefers-reduced-motion.
+
+# Code quality
+- Small, reusable, single-purpose components. Folder structure: components/, pages/, hooks/, lib/, data/.
+- Meaningful names, no magic numbers, no duplicated markup.
+- No unused imports, dead code, commented-out code, or console.logs.
+- Keep the README updated with setup steps and design decisions.
+
+# Workflow
+- Before building, write a short design brief: user, problem, tone, references.
+- Build tokens and base components first, then screens.
+- After each screen, review it against this file and fix violations before moving on.
